@@ -2,10 +2,6 @@
 	path = themes/simple-hugo-theme-jn
 	url = https://github.com/jaydennord/simple-hugo-theme-jn.git
 	branch = master
-[submodule "path"]
-	path = path
-	url = https://github.com/jaydennord/jaydennord.github.io.git
-	branch = master
 [submodule "public"]
 	path = public
 	url = https://github.com/jaydennord/jaydennord.github.io.git
