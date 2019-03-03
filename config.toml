@@ -1,0 +1,67 @@
+baseurl = "http://jaydennord.github.io/"
+title = "Jayden Nord"
+languageCode = "en-us"
+
+# Theme to use
+theme = "simple-hugo-theme-jn"
+
+# Pagination
+paginate = 10
+paginatePath = "page"
+
+# Google analytics
+# googleAnalytics = ""
+
+# Copyright
+copyright = "© 2019 — All rights reserved."
+
+# Highlighting
+#pygmentsUseClasses = true
+pygmentsCodefences = true
+pygmentsCodeFencesGuessSyntax = true
+#pygmentsoptions = "linenos=table"
+pygmentsStyle = "friendly"
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Menu
+[menu]
+  # Header
+  [[menu.main]]
+    url = "/posts/"
+    name = "posts"
+    weight = 1
+  #[[menu.main]]
+  #  url = "/about/"
+  #  name = "about"
+  #  weight = 2
+  #[[menu.main]]
+  #  url = "/contact/"
+  #  name = "contact"
+  #  weight = 3
+
+  # Footer
+  [[menu.footer]]
+    url = "https://github.com/jaydennord"
+    name = "GitHub"
+    weight = 1
+  [[menu.footer]]
+    url = "/posts/index.xml"
+    name = "RSS"
+    weight = 2
+  #[[menu.footer]]
+  #  url = "mailto:foo@bar.com"
+  #  name = "Contact"
+  #  weight = 3
+
+
+# Links format
+[permalinks]
+  posts = "/posts/:year/:month/:title/"
+
+[params]
+  # Date format (default: Jan 2, 2006)
+  # datefmt  = "Jan 2, 2006"

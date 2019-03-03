@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Simulation Studies</title>
+  <meta name="description" content="R for Simulation Studies">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Simulation Studies" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Simulation Studies" />
+  
+  
+  
+
+<meta name="author" content="Jayden Nord">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="functionals.html">
+<link rel="next" href="gen-from-lm.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#statistics-review"><i class="fa fa-check"></i><b>1.1</b> Statistics review</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#simulation-studies"><i class="fa fa-check"></i><b>1.2</b> Simulation studies</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#r"><i class="fa fa-check"></i><b>1.3</b> R</a></li>
+</ul></li>
+<li class="part"><span><b>I R essentials</b></span></li>
+<li class="chapter" data-level="2" data-path="r-essentials-intro.html"><a href="r-essentials-intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-essentials-intro.html"><a href="r-essentials-intro.html#readings"><i class="fa fa-check"></i><b>2.1</b> Readings</a></li>
+<li class="chapter" data-level="2.2" data-path="r-essentials-intro.html"><a href="r-essentials-intro.html#focus"><i class="fa fa-check"></i><b>2.2</b> Focus</a></li>
+<li class="chapter" data-level="2.3" data-path="r-essentials-intro.html"><a href="r-essentials-intro.html#exercises"><i class="fa fa-check"></i><b>2.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html"><i class="fa fa-check"></i><b>3</b> Data structures and operations</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#readings-1"><i class="fa fa-check"></i><b>3.1</b> Readings</a></li>
+<li class="chapter" data-level="3.2" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#focus-1"><i class="fa fa-check"></i><b>3.2</b> Focus</a></li>
+<li class="chapter" data-level="3.3" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#matrices"><i class="fa fa-check"></i><b>3.3</b> Matrices</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#matrix-creation"><i class="fa fa-check"></i><b>3.3.1</b> Matrix creation</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#dimensions-and-length-incomplete"><i class="fa fa-check"></i><b>3.3.2</b> Dimensions and length [INCOMPLETE]</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#dimnames-and-names-incomplete"><i class="fa fa-check"></i><b>3.3.3</b> Dimnames and names [INCOMPLETE]</a></li>
+<li class="chapter" data-level="3.3.4" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#matrix-binding"><i class="fa fa-check"></i><b>3.3.4</b> Matrix binding</a></li>
+<li class="chapter" data-level="3.3.5" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#matrix-coercion"><i class="fa fa-check"></i><b>3.3.5</b> Matrix coercion</a></li>
+<li class="chapter" data-level="3.3.6" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#matrix-operations"><i class="fa fa-check"></i><b>3.3.6</b> Matrix operations</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-structures-and-operations.html"><a href="data-structures-and-operations.html#exercises-1"><i class="fa fa-check"></i><b>3.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="indexing.html"><a href="indexing.html"><i class="fa fa-check"></i><b>4</b> Indexing</a><ul>
+<li class="chapter" data-level="4.1" data-path="indexing.html"><a href="indexing.html#readings-2"><i class="fa fa-check"></i><b>4.1</b> Readings</a></li>
+<li class="chapter" data-level="4.2" data-path="indexing.html"><a href="indexing.html#focus-2"><i class="fa fa-check"></i><b>4.2</b> Focus</a></li>
+<li class="chapter" data-level="4.3" data-path="indexing.html"><a href="indexing.html#exercises-2"><i class="fa fa-check"></i><b>4.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="control-structures.html"><a href="control-structures.html"><i class="fa fa-check"></i><b>5</b> Control structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="control-structures.html"><a href="control-structures.html#readings-3"><i class="fa fa-check"></i><b>5.1</b> Readings</a></li>
+<li class="chapter" data-level="5.2" data-path="control-structures.html"><a href="control-structures.html#focus-3"><i class="fa fa-check"></i><b>5.2</b> Focus</a></li>
+<li class="chapter" data-level="5.3" data-path="control-structures.html"><a href="control-structures.html#ifelse-part-1"><i class="fa fa-check"></i><b>5.3</b> <code>ifelse()</code> part 1</a></li>
+<li class="chapter" data-level="5.4" data-path="control-structures.html"><a href="control-structures.html#exercises-3"><i class="fa fa-check"></i><b>5.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>6</b> Functions</a><ul>
+<li class="chapter" data-level="6.1" data-path="functions.html"><a href="functions.html#readings-4"><i class="fa fa-check"></i><b>6.1</b> Readings</a></li>
+<li class="chapter" data-level="6.2" data-path="functions.html"><a href="functions.html#focus-4"><i class="fa fa-check"></i><b>6.2</b> Focus</a></li>
+<li class="chapter" data-level="6.3" data-path="functions.html"><a href="functions.html#ifelse-part-2"><i class="fa fa-check"></i><b>6.3</b> <code>ifelse()</code> part 2</a></li>
+<li class="chapter" data-level="6.4" data-path="functions.html"><a href="functions.html#exercises-4"><i class="fa fa-check"></i><b>6.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="functionals.html"><a href="functionals.html"><i class="fa fa-check"></i><b>7</b> Functionals</a><ul>
+<li class="chapter" data-level="7.1" data-path="functionals.html"><a href="functionals.html#readings-5"><i class="fa fa-check"></i><b>7.1</b> Readings</a></li>
+<li class="chapter" data-level="7.2" data-path="functionals.html"><a href="functionals.html#focus-5"><i class="fa fa-check"></i><b>7.2</b> Focus</a></li>
+<li class="chapter" data-level="7.3" data-path="functionals.html"><a href="functionals.html#exercises-5"><i class="fa fa-check"></i><b>7.3</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Data generation</b></span></li>
+<li class="chapter" data-level="8" data-path="random.html"><a href="random.html"><i class="fa fa-check"></i><b>8</b> Random sampling and variate generation</a><ul>
+<li class="chapter" data-level="8.1" data-path="random.html"><a href="random.html#pseudo-randomness"><i class="fa fa-check"></i><b>8.1</b> Pseudo-randomness</a></li>
+<li class="chapter" data-level="8.2" data-path="random.html"><a href="random.html#univariate-random-samples-incomplete"><i class="fa fa-check"></i><b>8.2</b> Univariate random samples [INCOMPLETE]</a></li>
+<li class="chapter" data-level="8.3" data-path="random.html"><a href="random.html#multivariate-normal-samples-incomplete"><i class="fa fa-check"></i><b>8.3</b> Multivariate normal samples [INCOMPLETE]</a></li>
+<li class="chapter" data-level="8.4" data-path="random.html"><a href="random.html#exercises-6"><i class="fa fa-check"></i><b>8.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="gen-from-lm.html"><a href="gen-from-lm.html"><i class="fa fa-check"></i><b>9</b> Generation from linear models</a><ul>
+<li class="chapter" data-level="9.1" data-path="gen-from-lm.html"><a href="gen-from-lm.html#linear-combination-review"><i class="fa fa-check"></i><b>9.1</b> Linear combination review</a></li>
+<li class="chapter" data-level="9.2" data-path="gen-from-lm.html"><a href="gen-from-lm.html#exogeneity-and-endogeneity"><i class="fa fa-check"></i><b>9.2</b> Exogeneity and endogeneity</a></li>
+<li class="chapter" data-level="9.3" data-path="gen-from-lm.html"><a href="gen-from-lm.html#general-procedure"><i class="fa fa-check"></i><b>9.3</b> General procedure</a></li>
+<li class="chapter" data-level="9.4" data-path="gen-from-lm.html"><a href="gen-from-lm.html#examples"><i class="fa fa-check"></i><b>9.4</b> Examples</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="gen-from-lm.html"><a href="gen-from-lm.html#crt"><i class="fa fa-check"></i><b>9.4.1</b> CRT</a></li>
+<li class="chapter" data-level="9.4.2" data-path="gen-from-lm.html"><a href="gen-from-lm.html#correlated-outcomes"><i class="fa fa-check"></i><b>9.4.2</b> Correlated outcomes</a></li>
+<li class="chapter" data-level="9.4.3" data-path="gen-from-lm.html"><a href="gen-from-lm.html#mediation"><i class="fa fa-check"></i><b>9.4.3</b> Mediation</a></li>
+<li class="chapter" data-level="9.4.4" data-path="gen-from-lm.html"><a href="gen-from-lm.html#multilevel"><i class="fa fa-check"></i><b>9.4.4</b> Multilevel</a></li>
+<li class="chapter" data-level="9.4.5" data-path="gen-from-lm.html"><a href="gen-from-lm.html#sem"><i class="fa fa-check"></i><b>9.4.5</b> SEM</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="gen-from-lm.html"><a href="gen-from-lm.html#exercises-7"><i class="fa fa-check"></i><b>9.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="gen-mult.html"><a href="gen-mult.html"><i class="fa fa-check"></i><b>10</b> Multiple replications and conditions</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Simulation Studies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="random" class="section level1">
+<h1><span class="header-section-number">8</span> Random sampling and variate generation</h1>
+<p>In the <a href="intro.html#statistics-review">Introduction</a> to this book.</p>
+<ul>
+<li>obtain sample of estimators</li>
+<li>sample depends on “sample” of randomly generated data</li>
+<li>we need to know how to randomly generate data</li>
+</ul>
+<div id="pseudo-randomness" class="section level2">
+<h2><span class="header-section-number">8.1</span> Pseudo-randomness</h2>
+<p>Computers cannot generate truly random numbers. Instead, complex algorithms mimic randomness to produce <em>pseudo-random numbers</em>. These algorithms begin with an arbitrary starting value or <em>seed</em> that updates with each generated number. Unless otherwise specified, the seed is often based on the internal clock of the computer’s processor.</p>
+<p>The use of an algorithm makes pseudo-randomness predictable and reproducible. If one writes a program and provides a fixed value for the seed, then the program will return the same results on repeated runs. All random number generation scripts should begin with setting the seed.</p>
+<p>In R, setting the seed is accomplished with the <code>set.seed()</code> function that takes an arbitrary number as its argument. In the next codeblock, the <code>runif()</code> function is used to generate a random number between 0 and 1. Note that if you run this code in your own R session, the first instance of <code>runif()</code> will return a different result. When the same seed is invoked, however, the second <code>runif()</code> will return the same result as below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt; [1] 0.4916358</span>
+
+<span class="kw">set.seed</span>(<span class="dv">12479</span>)
+<span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt; [1] 0.1121074</span></code></pre></div>
+<p>Pending an investigation of cyclical relationships among generated values, the seed needs to be set only once.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># one run</span>
+<span class="kw">set.seed</span>(<span class="dv">12479</span>)
+
+x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">5</span>)
+
+y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">5</span>)
+
+x; y
+<span class="co">#&gt; [1] 0.1121074 0.7750140 0.4247088 0.8604614 0.9952807</span>
+<span class="co">#&gt; [1] 0.31230762 0.06263094 0.64284741 0.59751066 0.52157322</span>
+
+<span class="co"># another run that produces the same results</span>
+<span class="kw">set.seed</span>(<span class="dv">12479</span>)
+
+x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">5</span>)
+
+y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">5</span>)
+
+x; y
+<span class="co">#&gt; [1] 0.1121074 0.7750140 0.4247088 0.8604614 0.9952807</span>
+<span class="co">#&gt; [1] 0.31230762 0.06263094 0.64284741 0.59751066 0.52157322</span></code></pre></div>
+<p>Remember that the random number generation algorithm updates each time it is used to generate a value. This is illustrated below. The first run uses the random number generator to produce two random numbers with seed <code>12345</code>. In the subsequent run, the seed is reset to <code>12345</code> and two separate <code>runif()</code> functions generate two random numbers. The values are equivalent to the first run; the same seed was used, the same generating function was used, and a random number was requested twice.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first run</span>
+<span class="kw">set.seed</span>(<span class="dv">12345</span>)
+
+<span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">2</span>)
+<span class="co">#&gt; [1] 0.7209039 0.8757732</span>
+
+<span class="co"># reset</span>
+<span class="kw">set.seed</span>(<span class="dv">12345</span>)
+
+<span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt; [1] 0.7209039</span>
+
+<span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt; [1] 0.8757732</span></code></pre></div>
+</div>
+<div id="univariate-random-samples-incomplete" class="section level2">
+<h2><span class="header-section-number">8.2</span> Univariate random samples [INCOMPLETE]</h2>
+<p><code>sample()</code></p>
+<p>For many distributions, R provides functions for density, cumulative distribution functions, quantile functions, and random generation. These functions are of the form <code>dxxx</code>, <code>pxxx</code>, <code>qxxx</code>, and <code>rxxx</code>. We are more interested in the random generation functions <code>rxxx</code>. See <code>help(Distributions)</code> for a full list.</p>
+<ul>
+<li>vectorization of <code>rxxx</code> functions.</li>
+</ul>
+</div>
+<div id="multivariate-normal-samples-incomplete" class="section level2">
+<h2><span class="header-section-number">8.3</span> Multivariate normal samples [INCOMPLETE]</h2>
+<p>Here, multivariate data refers to multiple non-independent random variables. There are two ways to generate data from a multivariate normal distribution. The first is to use a Cholesky decomposition and the second is to use <code>MASS::mvrnorm()</code>. Both approaches require a population covariance matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+<span class="kw">set.seed</span>(<span class="dv">12479</span>)
+
+nobs &lt;-<span class="st"> </span><span class="fl">1e4</span>
+
+<span class="co"># population covariance matrix</span>
+Sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(
+  <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>,
+  <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">0</span>,
+  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10</span>
+), <span class="dt">nrow =</span> <span class="dv">3</span>)
+
+<span class="co"># Using chol()</span>
+x0 &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">3</span>, <span class="kw">rnorm</span>(nobs))
+x &lt;-<span class="st"> </span>(x0 <span class="op">%*%</span><span class="st"> </span><span class="kw">chol</span>(Sigma)) <span class="op">+</span><span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="dt">each =</span> nobs)
+
+<span class="kw">colMeans</span>(x)
+<span class="co">#&gt; [1] 7.990510 2.994045 1.993155</span>
+
+<span class="kw">cov</span>(x)
+<span class="co">#&gt;             [,1]        [,2]        [,3]</span>
+<span class="co">#&gt; [1,]  2.92735046  0.91075099 -0.01216241</span>
+<span class="co">#&gt; [2,]  0.91075099  4.94800859 -0.07276899</span>
+<span class="co">#&gt; [3,] -0.01216241 -0.07276899  9.99723454</span>
+
+
+<span class="co"># Using MASS::mvrnorm()</span>
+x &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(<span class="dt">n =</span> nobs, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="dt">Sigma =</span> Sigma)
+
+<span class="kw">colMeans</span>(x)
+<span class="co">#&gt; [1] 7.976831 2.964806 1.960594</span>
+
+<span class="kw">cov</span>(x)
+<span class="co">#&gt;             [,1]       [,2]        [,3]</span>
+<span class="co">#&gt; [1,]  2.90912622 1.01625027 -0.02573531</span>
+<span class="co">#&gt; [2,]  1.01625027 4.96394380  0.09375714</span>
+<span class="co">#&gt; [3,] -0.02573531 0.09375714  9.92934666</span></code></pre></div>
+<p>The sample covariance matrix is roughly equivalent to the population covariance matrix <code>Sigma</code> as expected. The sample mean vector is also roughly equivalent to the population mean vector as expected. It appears that <code>MASS::mvrnorm</code> is simpler than the <code>chol</code> method. The <code>chol</code> method, however, will be useful for generating normally distributed data with additional skew and kurtosis.</p>
+</div>
+<div id="exercises-6" class="section level2">
+<h2><span class="header-section-number">8.4</span> Exercises</h2>
+<p>Use <code>set.seed()</code> for these exercises for reproducible results.</p>
+<ol style="list-style-type: decimal">
+<li><p>Suppose we have <span class="math inline">\(X_1, \dots, X_{20}\)</span> such that <span class="math inline">\(X_i \sim Bernoulli(p_i)\)</span> and <span class="math inline">\(p_i \sim Beta(2, 3)\)</span>. Note that the Bernoulli distribution results in 0 or 1 and the <span class="math inline">\(p\)</span> parameter ranges between 0 and 1. Meanwhile, the Beta distribution ranges between 0 and 1. Generate the random sample <span class="math inline">\(X_i, \dots, X_{20}\)</span>. Hint: The Bernoulli distribution is a special case of the Binomial distribution, so <code>rbinom()</code> may be used.</p></li>
+<li>Generate a random sample <span class="math inline">\(X_1, \dots X_{100}\)</span> such that <span class="math inline">\(X_i \sim N(10, 3)\)</span>. Then, randomly assign data in this sample to be missing such that each case has a 5% chance of being missing. Impose missingness in three ways with:
+<ol style="list-style-type: lower-alpha">
+<li><code>sample()</code></li>
+<li><code>rbinom()</code></li>
+<li><code>runif()</code></li>
+</ol>
+<p>Hint: Remember logical indexing.</p></li>
+<li><p>Randomly generate a sample of size 100 with three variables that have the following characteristics. <span class="math inline">\(X\)</span> has variance 5, <span class="math inline">\(Y\)</span> has variance 3, <span class="math inline">\(Z\)</span> has variance 2, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are correlated .3, and <span class="math inline">\(Z\)</span> is uncorrelated with the other variables. All variables have means of 0. Confirm your generation with <code>cov()</code> and <code>cor()</code>.</p></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="functionals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="gen-from-lm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
