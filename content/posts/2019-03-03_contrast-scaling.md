@@ -1,6 +1,7 @@
 ---
 title: "Contrast scaling"
 date: 2019-03-03
+tags: ["R", "general linear modeling"]
 ---
 
 
