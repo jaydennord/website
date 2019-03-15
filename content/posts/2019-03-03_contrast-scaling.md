@@ -6,30 +6,28 @@ tags: ["R", "general linear modeling"]
 
 
 
-Using a [publicly available auto dataset](https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/), students were asked to set up contrasts to estimate the difference between American and foreign (European and Japenese) cars' miles-per-gallon (mpg) and the difference between European and Japanese cars' mpg. The data are read into R with the code below. The variable "origin" is explicitly converted into a categorical variable from a numeric. The variable "name" is removed to simplify the appearance of the data.
+Using a [publicly available auto dataset](https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/), students were asked to set up contrasts to estimate the difference between American and foreign (European and Japenese) cars' miles-per-gallon (mpg) and the difference between European and Japanese cars' mpg. The data are read into R with the code below. Then, the variable "origin" is explicitly converted into a categorical variable from a numeric. 
 
 
 ```r
 d <- read.table(
-  "https://raw.githubusercontent.com/jaydennord/data/master/auto.dat",
-  header = TRUE, 
+  "https://raw.githubusercontent.com/jaydennord/data/master/auto.csv",
   as.is  = TRUE
-)
+)[, "mpg", "origin"]
 
 d <- transform(
   d, 
-  origin = factor(origin, 1:3, c("American", "European", "Japanese")),
-  name = NULL
+  origin = factor(origin, 1:3, c("American", "European", "Japanese"))
 )
 
 head(d)
-##   mpg cyl disp horse weight accel year   origin
-## 1  18   8  307   130   3504  12.0   70 American
-## 2  15   8  350   165   3693  11.5   70 American
-## 3  18   8  318   150   3436  11.0   70 American
-## 4  16   8  304   150   3433  12.0   70 American
-## 5  17   8  302   140   3449  10.5   70 American
-## 6  15   8  429   198   4341  10.0   70 American
+##   mpg   origin
+## 1  18 American
+## 2  15 American
+## 3  18 American
+## 4  16 American
+## 5  17 American
+## 6  15 American
 ```
 
 Before implementing contrasts, I want to fit a simple dummy-coded version of mpg regressed on origin. Using the resulting model, model-estimated means for each country of origin are calculated. 95% confidence intervals are printed along with the estimate. These are needed for future illustration.
