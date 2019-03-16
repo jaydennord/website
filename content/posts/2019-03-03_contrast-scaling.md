@@ -10,7 +10,7 @@ Using a [publicly available auto dataset](https://archive.ics.uci.edu/ml/machine
 
 
 ```r
-d <- read.table(
+d <- read.csv(
   "https://raw.githubusercontent.com/jaydennord/data/master/auto.csv",
   as.is  = TRUE
 )[, "mpg", "origin"]
