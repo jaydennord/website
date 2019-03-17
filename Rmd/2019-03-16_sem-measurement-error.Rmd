@@ -1,0 +1,182 @@
+---
+title: "Measurement error in SEM"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, cache = TRUE)
+
+f <- function(x) sprintf("%.3f", x)
+
+library(tidyverse)
+library(lavaan)
+library(semPlot)
+
+d <- read_csv(
+  "https://raw.githubusercontent.com/jaydennord/data/master/health.csv"
+)
+
+mod <- '
+age_f =~ l1 * age
+
+stress_f =~ l2 * scstress
+
+self =~ 
+l3*esteem + 
+l4*attmar + 
+l5*control
+'
+
+# mod_syn <- semSyntax(fit, "lavaan") 
+# mod_sem <- semSyntax(mod_syn, "sem")
+
+fit <- sem(mod, data = d, std.lv = TRUE, do.fit = FALSE)
+```
+
+Suppose we wanted to fit the following model below using health data from
+Hoffman and Fidell (1979). The observed variables are
+
+* age - age bracket of the participant
+* scstress - stress measure rescaled to help SEM estimation
+* esteem - self-esteem measurement
+* attmar - satisfaction with marital status
+* control - locus of control measurement
+
+```{r diagram, echo = FALSE}
+semPaths(fit, rotation = 4, intercepts = FALSE, style = "lisrel", nCharNodes = 0, edgeLabels = c(
+  list(
+    expression(lambda[1]),
+    expression(lambda[2]),
+    expression(lambda[3]),
+    expression(lambda[4]),
+    expression(lambda[5]),
+    expression(e[1]),
+    expression(e[2]),
+    expression(e[3]),
+    expression(e[4]),
+    expression(e[5])
+  )
+), edge.label.cex = 1, sizeMan = 10, sizeLat = 10)
+```
+
+The diagram can be expressed formulaically:
+
+$$
+\begin{align*}
+\text{age} & = \lambda_1 \text{(age_f)} + e_1 \\
+\text{scstress} & = \lambda_2 \text{(stresss_f)} + e_2 \\
+\text{esteem} & = \lambda_3 \text{(self)} + e_3 \\
+\text{attmar} & = \lambda_4 \text{(self)} + e_4 \\
+\text{control} & = \lambda_5 \text{(self)} + e_5
+\end{align*}
+$$
+
+The observed measures are linear combinations of latent factors and residuals, which are sometimes interpreted as measurement error. If we assume `age` is a perfect measure of `age_f` (the true age), then the reliability of the measure is 100% and the variance of $e_1$ to be 0. For identification, we can fix $\lambda_1$ to 1, in which case the latent factor will inherit the variance of `age`. Otherwise, we can fix the variance of `age_f` to 1, in which case $\lambda_1$ will be the estimated standard deviation of `age`. 
+
+These consequences can be determined from the calculation of the variance of a linear combination of variables. For example, suppose $Y = aX_1 + bX_2$. Thus, $\text{Var}(Y) = a^2\text{Var}\left(X_1\right) + b^2\text{Var}\left(X_2\right) + ab\text{Cov}\left(X_1, X_2\right)$.
+
+Perhaps we have determined that the reliability of our stress measure is 90%. Thus, 90% of the variability of `scstress` is attributed to `stress_f` and 10% of the variability is attributed to $e_2$. So,
+
+$$
+\begin{align*}
+\text{Var(scstress)} & = \lambda_2^2\text{Var(stress_f)} + \text{Var}\left(e_2\right) \\
+1 & =  \lambda_2^2 {\text{Var(stress_f)} \over \text{Var(scstress)}} + {{\text{Var}\left(e_2\right)}\over{\text{Var(stress_f)}}}
+\end{align*}
+$$
+
+and
+
+$$
+\begin{align*}
+.90 & = \lambda_2^2 {\text{Var(stress_f)} \over \text{Var(scstress)}} \\
+.10 & = {{\text{Var}\left(e_2\right)}\over{\text{Var(scstress)}}}
+\end{align*}
+$$
+
+There are two modelling approaches for determining $\lambda^2_2$ (assuming $\text{Var(scstress)}$ is set to 1), which I will call the _two-step_ and _one-step_ approaches. I believe that the two-step approach is the most common. In the two-step approach, the sample variance for `scstress` is used for $\text{Var(scstress)}$. Below is the syntax used to estimate the model of interest with the two-step approach.
+
+
+
+```{r, message = FALSE, warning = FALSE}
+# required packages
+library(tidyverse)
+library(lavaan)
+library(semPlot)
+
+# health data
+d <- read_csv(
+  "https://raw.githubusercontent.com/jaydennord/data/master/health.csv"
+)
+
+# estimated variance of scstress
+var(d$scstress)
+
+# lambda_2
+sqrt(.90 * var(d$scstress))
+.10 * var(d$scstress)
+
+mod <- '
+# model
+  age_f =~ age
+  
+  stress_f =~ 1.23017 * scstress
+  scstress ~~ .1681464 * scstress
+  
+  self =~ esteem + attmar + control
+'
+
+fit <- sem(mod, data = d, mimic = "mplus", std.lv = TRUE)
+
+summary(fit, rsquare = TRUE)
+
+semPaths(fit, rotation = 4, intercepts = FALSE, style = "lisrel", nCharNodes = 0,  edge.label.cex = 1, sizeMan = 10, sizeLat = 10, what = "est", weighted = FALSE)
+```
+
+The two-step approach is so named because the variance of a variable was estimated first and then entered as a constant in the model. I am uncomfortable, however, with a fixed value being used for an estimated variance. With appropriate constraints, the variance estimation can be built into the model, allowing the estimation of variance and the model in one step. 
+
+To do this in `lavaan`, we must use the `lavaan` function as the defaults invoked by `sem` or `cfa` are incompatible with what needs to be done. Unfortunately, this means that we must build much of the model manually.
+
+```{r}
+mod <- '
+# model
+  age_f =~ age
+  
+  stress_f =~ lambda * scstress
+  scstress ~~ e * scstress
+  
+  self =~ esteem + attmar + control
+
+# constraints
+  var_scstress := lambda^2 + e
+  .90 == lambda^2 / var_scstress
+  .10 == e / var_scstress
+
+# originally implied defaults
+  age_f ~~ 1 * age_f
+  age ~~ 0 * age
+  
+  stress_f ~~ 1 * stress_f
+  
+  self ~~ 1 * self
+  esteem ~~ esteem
+  attmar ~~ attmar
+  control ~~ control
+'
+
+fit <- lavaan(
+  mod, data = d, 
+  information = "observed", 
+  auto.cov.lv.x = TRUE, 
+  meanstructure = TRUE,
+  int.ov.free = TRUE
+)
+
+summary(fit, rsquare = TRUE)
+
+semPaths(fit, rotation = 4, intercepts = FALSE, style = "lisrel", nCharNodes = 0,  edge.label.cex = 1, sizeMan = 10, sizeLat = 10, what = "est", weighted = FALSE)
+```
+
+An additional degree of freedom was used in the one-step approach and we now have standard errors for the loading and error term of `scstress` owing to the uncertainty of the variance estimation. Little else has changed in the model, however, but the one-step approach seems, in my opinion, more right than the two-step approach. I also wonder whether there are any scenarios or models where there is a profound difference between the two approaches. 
+
