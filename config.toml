@@ -10,7 +10,7 @@ paginate = 10
 paginatePath = "page"
 
 # Google analytics
-# googleAnalytics = ""
+googleAnalytics = "UA-137804895-1"
 
 # Copyright
 copyright = "© 2019 — All rights reserved."
